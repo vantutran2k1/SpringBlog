@@ -1,7 +1,7 @@
 package com.tutran.springblog.mapper;
 
 import com.tutran.springblog.entity.Post;
-import com.tutran.springblog.payload.PostResponseDto;
+import com.tutran.springblog.payload.post.PostResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 

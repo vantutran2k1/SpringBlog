@@ -1,4 +1,4 @@
-package com.tutran.springblog.payload;
+package com.tutran.springblog.payload.post;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
