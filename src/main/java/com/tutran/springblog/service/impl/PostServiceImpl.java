@@ -87,6 +87,16 @@ public class PostServiceImpl implements PostService {
         return postMapper.postToPostResponseDto(post);
     }
 
+    @Override
+    @Transactional
+    public void deletePostById(long id) {
+        Post post = postRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException(this.getPostNotFoundMessage(id))
+        );
+
+        postRepository.delete(post);
+    }
+
     private boolean isNotEmpty(String property) {
         return property != null && !property.isEmpty();
     }

@@ -41,4 +41,11 @@ public class PostController {
     ) {
         return ResponseEntity.ok(ApiResponse.builder().data(postService.updatePostById(id, postUpdateRequest)).build());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse> deletePostById(@PathVariable(name = "id") long id) {
+        postService.deletePostById(id);
+
+        return ResponseEntity.ok(ApiResponse.builder().data("Post entity deleted successfully").build());
+    }
 }
