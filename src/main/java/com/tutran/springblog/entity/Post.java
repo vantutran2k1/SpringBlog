@@ -1,11 +1,14 @@
 package com.tutran.springblog.entity;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
+import jakarta.persistence.*;
+import lombok.*;
+
+@Getter
+@Setter
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -13,15 +16,22 @@ import lombok.NoArgsConstructor;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ToString.Include
+    @EqualsAndHashCode.Include
     private long id;
 
     @Column(name = "title", nullable = false)
+    @ToString.Include
+    @EqualsAndHashCode.Include
     private String title;
 
     @Column(name = "description", nullable = false)
+    @ToString.Include
+    @EqualsAndHashCode.Include
     private String description;
 
-
     @Column(name = "content", nullable = false)
+    @ToString.Include
+    @EqualsAndHashCode.Include
     private String content;
 }
