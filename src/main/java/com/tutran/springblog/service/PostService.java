@@ -2,14 +2,13 @@ package com.tutran.springblog.service;
 
 import com.tutran.springblog.payload.post.PostCreateRequest;
 import com.tutran.springblog.payload.post.PostResponseDto;
+import com.tutran.springblog.payload.post.PostResponseDtoWithMeta;
 import com.tutran.springblog.payload.post.PostUpdateRequest;
-
-import java.util.List;
 
 public interface PostService {
     PostResponseDto createPost(PostCreateRequest postCreateRequest);
 
-    List<PostResponseDto> getAllPosts();
+    PostResponseDtoWithMeta getAllPosts(int pageNo, int pageSize);
 
     PostResponseDto getPostById(long id);
 

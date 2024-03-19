@@ -9,13 +9,13 @@ import org.springframework.http.HttpStatus;
 @Value
 @Builder
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
-public class ApiResponse {
-    @JsonProperty(value = "data")
-    Object data;
+public class ApiError {
+    @JsonProperty(value = "message")
+    String message;
 
-    @JsonProperty(value = "meta")
-    Object meta;
+    @JsonProperty(value = "error")
+    Object error;
 
-    @JsonProperty(value = "status_code")
-    HttpStatus statusCode;
+    @JsonProperty(value = "status")
+    HttpStatus status;
 }

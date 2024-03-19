@@ -5,6 +5,7 @@ import com.tutran.springblog.payload.post.PostCreateRequest;
 import com.tutran.springblog.payload.post.PostUpdateRequest;
 import com.tutran.springblog.service.PostService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +26,12 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse> getAllPosts() {
-        return ResponseEntity.ok(ApiResponse.builder().data(postService.getAllPosts()).build());
+    public ResponseEntity<ApiResponse> getAllPosts(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) @Min(value = 0) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) @Min(value = 0) int pageSize
+    ) {
+        var posts = postService.getAllPosts(pageNo, pageSize);
+        return ResponseEntity.ok(ApiResponse.builder().data(posts.getPosts()).meta(posts.getMeta()).build());
     }
 
     @GetMapping("/{id}")

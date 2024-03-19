@@ -14,7 +14,7 @@ import org.hibernate.annotations.SQLRestriction;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "posts", uniqueConstraints = {@UniqueConstraint(columnNames = {"title"})})
+@Table(name = "posts")
 @SQLDelete(sql = "UPDATE posts SET deleted = true WHERE id=?")
 @SQLRestriction(value = "deleted = false")
 public class Post {
