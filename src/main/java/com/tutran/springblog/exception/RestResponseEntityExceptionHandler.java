@@ -5,6 +5,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -34,7 +35,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return this.buildErrorResponseEntity(ex, null, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(value = IllegalArgumentException.class)
+    @ExceptionHandler(value = {IllegalArgumentException.class, PropertyReferenceException.class})
     protected ResponseEntity<ApiError> handleBadRequest(RuntimeException ex) {
         return this.buildErrorResponseEntity(ex, null, HttpStatus.BAD_REQUEST);
     }

@@ -4,6 +4,7 @@ import com.tutran.springblog.payload.ApiResponse;
 import com.tutran.springblog.payload.post.PostCreateRequest;
 import com.tutran.springblog.payload.post.PostUpdateRequest;
 import com.tutran.springblog.service.PostService;
+import com.tutran.springblog.utils.AppConstants;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +28,28 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<ApiResponse> getAllPosts(
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) @Min(value = 0) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) @Min(value = 0) int pageSize
+            @RequestParam(
+                    value = "pageNo",
+                    defaultValue = AppConstants.DEFAULT_PAGE_NUMBER,
+                    required = false
+            ) @Min(value = 0) int pageNo,
+            @RequestParam(
+                    value = "pageSize",
+                    defaultValue = AppConstants.DEFAULT_PAGE_SIZE,
+                    required = false
+            ) @Min(value = 1) int pageSize,
+            @RequestParam(
+                    value = "sortBy",
+                    defaultValue = AppConstants.DEFAULT_SORT_BY,
+                    required = false
+            ) String sortBy,
+            @RequestParam(
+                    value = "sortDir",
+                    defaultValue = AppConstants.DEFAULT_SORT_DIRECTION,
+                    required = false
+            ) String sortDir
     ) {
-        var posts = postService.getAllPosts(pageNo, pageSize);
+        var posts = postService.getAllPosts(pageNo, pageSize, sortBy, sortDir);
         return ResponseEntity.ok(ApiResponse.builder().data(posts.getPosts()).meta(posts.getMeta()).build());
     }
 

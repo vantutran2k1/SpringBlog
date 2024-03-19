@@ -8,7 +8,7 @@ import com.tutran.springblog.payload.post.PostUpdateRequest;
 public interface PostService {
     PostResponseDto createPost(PostCreateRequest postCreateRequest);
 
-    PostResponseDtoWithMeta getAllPosts(int pageNo, int pageSize);
+    PostResponseDtoWithMeta getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir);
 
     PostResponseDto getPostById(long id);
 
