@@ -6,6 +6,9 @@ import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Getter
 @Setter
 @ToString(onlyExplicitlyIncluded = true)
@@ -43,4 +46,7 @@ public class Post {
     @ToString.Include
     @EqualsAndHashCode.Include
     private boolean deleted = Boolean.FALSE;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comment> comments = new HashSet<>();
 }
