@@ -1,6 +1,8 @@
 package com.tutran.springblog.service.impl;
 
+import com.tutran.springblog.entity.Comment;
 import com.tutran.springblog.entity.Post;
+import com.tutran.springblog.exception.CommentNotBelongingToPostException;
 import com.tutran.springblog.mapper.CommentMapper;
 import com.tutran.springblog.payload.comment.CommentCreateRequest;
 import com.tutran.springblog.payload.comment.CommentResponseDto;
@@ -39,6 +41,23 @@ public class CommentServiceImpl implements CommentService {
 
         var comments = commentRepository.findByPostId(postId);
         return comments.stream().map(commentMapper::commentToCommentResponseDto).toList();
+    }
+
+    @Override
+    public CommentResponseDto getCommentById(long postId, long commentId) {
+        var post = this.getPostByIdOrThrowException(postId);
+        var comment = this.getCommentByIdOrThrowException(commentId);
+        if (comment.getPost().getId() != post.getId()) {
+            throw new CommentNotBelongingToPostException(ErrorMessageBuilder.getCommentNotBelongingToPostErrorMessage(postId, commentId));
+        }
+
+        return commentMapper.commentToCommentResponseDto(comment);
+    }
+
+    private Comment getCommentByIdOrThrowException(long commentId) {
+        return commentRepository.findById(commentId).orElseThrow(
+                () -> new EntityNotFoundException(ErrorMessageBuilder.getCommentNotFoundErrorMessage(commentId))
+        );
     }
 
     private Post getPostByIdOrThrowException(long postId) {

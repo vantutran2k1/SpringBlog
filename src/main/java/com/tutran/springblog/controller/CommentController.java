@@ -26,7 +26,16 @@ public class CommentController {
     }
 
     @GetMapping("/posts/{postId}/comments")
+//    TODO: Implement pagination and sorting features
     public ResponseEntity<ApiResponse> getCommentsByPostId(@PathVariable(value = "postId") long postId) {
         return ResponseEntity.ok(ApiResponse.builder().data(commentService.getCommentsByPostId(postId)).build());
+    }
+
+    @GetMapping("/posts/{postId}/comments/{commentId}")
+    public ResponseEntity<ApiResponse> getCommentById(
+            @PathVariable(value = "postId") long postId,
+            @PathVariable(value = "commentId") long commentId
+    ) {
+        return ResponseEntity.ok(ApiResponse.builder().data(commentService.getCommentById(postId, commentId)).build());
     }
 }

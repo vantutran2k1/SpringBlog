@@ -8,4 +8,12 @@ public final class ErrorMessageBuilder {
     public static String getDuplicatePostTitleMessage(String title) {
         return String.format("Post with title '%s' already exists", title);
     }
+
+    public static String getCommentNotFoundErrorMessage(long commentId) {
+        return String.format("Could not find comment with id '%s'", commentId);
+    }
+
+    public static String getCommentNotBelongingToPostErrorMessage(long postId, long commentId) {
+        return String.format("Comment id '%s' does not belong to post '%s'", commentId, postId);
+    }
 }
