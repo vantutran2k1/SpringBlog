@@ -9,6 +9,7 @@ import com.tutran.springblog.payload.post.PostResponseDtoWithMeta;
 import com.tutran.springblog.payload.post.PostUpdateRequest;
 import com.tutran.springblog.repository.PostRepository;
 import com.tutran.springblog.service.PostService;
+import com.tutran.springblog.utils.ErrorMessageBuilder;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
@@ -33,13 +34,9 @@ public class PostServiceImpl implements PostService {
         String title = postCreateRequest.getTitle();
         this.validateNotDuplicatePostTitle(title);
 
-        Post post = Post.builder()
-                .title(title)
-                .description(postCreateRequest.getDescription())
-                .content(postCreateRequest.getContent())
-                .build();
-
+        Post post = postMapper.postCreateRequestToPost(postCreateRequest);
         Post newPost = postRepository.save(post);
+
         return postMapper.postToPostResponseDto(newPost);
     }
 
@@ -66,7 +63,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostResponseDto getPostById(long id) {
         Post post = postRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(this.getPostNotFoundMessage(id))
+                () -> new EntityNotFoundException(ErrorMessageBuilder.getPostNotFoundErrorMessage(id))
         );
         return postMapper.postToPostResponseDto(post);
     }
@@ -75,7 +72,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public PostResponseDto updatePostById(long id, PostUpdateRequest postUpdateRequest) {
         Post post = postRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(this.getPostNotFoundMessage(id))
+                () -> new EntityNotFoundException(ErrorMessageBuilder.getPostNotFoundErrorMessage(id))
         );
 
         String title = postUpdateRequest.getTitle();
@@ -111,7 +108,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public void deletePostById(long id) {
         Post post = postRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(this.getPostNotFoundMessage(id))
+                () -> new EntityNotFoundException(ErrorMessageBuilder.getPostNotFoundErrorMessage(id))
         );
 
         postRepository.delete(post);
@@ -124,15 +121,7 @@ public class PostServiceImpl implements PostService {
     private void validateNotDuplicatePostTitle(String title) {
         boolean isExisted = postRepository.existsByTitle(title);
         if (isExisted) {
-            throw new DuplicateKeyException(this.getDuplicatePostTitleMessage(title));
+            throw new DuplicateKeyException(ErrorMessageBuilder.getDuplicatePostTitleMessage(title));
         }
-    }
-
-    private String getPostNotFoundMessage(long id) {
-        return String.format("Could not find post with id %s", id);
-    }
-
-    private String getDuplicatePostTitleMessage(String title) {
-        return String.format("Post with title '%s' already exists", title);
     }
 }
