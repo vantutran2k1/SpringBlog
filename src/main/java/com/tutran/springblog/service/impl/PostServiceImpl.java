@@ -62,24 +62,18 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResponseDto getPostById(long id) {
-        Post post = postRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(ErrorMessageBuilder.getPostNotFoundErrorMessage(id))
-        );
+        var post = this.getPostByIdOrThrowException(id);
         return postMapper.postToPostResponseDto(post);
     }
 
     @Override
     @Transactional
     public PostResponseDto updatePostById(long id, PostUpdateRequest postUpdateRequest) {
-        Post post = postRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(ErrorMessageBuilder.getPostNotFoundErrorMessage(id))
-        );
-
         String title = postUpdateRequest.getTitle();
         String description = postUpdateRequest.getDescription();
         String content = postUpdateRequest.getContent();
 
-
+        var post = this.getPostByIdOrThrowException(id);
         boolean needUpdate = false;
         if (this.isNotEmpty(title)) {
             if (!title.equals(post.getTitle())) {
@@ -107,10 +101,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public void deletePostById(long id) {
-        Post post = postRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(ErrorMessageBuilder.getPostNotFoundErrorMessage(id))
-        );
-
+        var post = this.getPostByIdOrThrowException(id);
         postRepository.delete(post);
     }
 
@@ -123,5 +114,11 @@ public class PostServiceImpl implements PostService {
         if (isExisted) {
             throw new DuplicateKeyException(ErrorMessageBuilder.getDuplicatePostTitleMessage(title));
         }
+    }
+
+    private Post getPostByIdOrThrowException(long postId) {
+        return postRepository.findById(postId).orElseThrow(
+                () -> new EntityNotFoundException(ErrorMessageBuilder.getPostNotFoundErrorMessage(postId))
+        );
     }
 }
