@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
@@ -30,5 +32,11 @@ public class CommentServiceImpl implements CommentService {
 
         var newComment = commentRepository.save(comment);
         return commentMapper.commentToCommentResponseDto(newComment);
+    }
+
+    @Override
+    public List<CommentResponseDto> getCommentsByPostId(long postId) {
+        var comments = commentRepository.findByPostId(postId);
+        return comments.stream().map(commentMapper::commentToCommentResponseDto).toList();
     }
 }

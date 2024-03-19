@@ -24,4 +24,9 @@ public class CommentController {
                 HttpStatus.CREATED
         );
     }
+
+    @GetMapping("/posts/{postId}/comments")
+    public ResponseEntity<ApiResponse> getCommentsByPostId(@PathVariable(value = "postId") long postId) {
+        return ResponseEntity.ok(ApiResponse.builder().data(commentService.getCommentsByPostId(postId)).build());
+    }
 }
