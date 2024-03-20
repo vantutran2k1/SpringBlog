@@ -5,6 +5,7 @@ import com.tutran.springblog.mapper.PostMapper;
 import com.tutran.springblog.payload.meta.PaginationMeta;
 import com.tutran.springblog.payload.meta.ResponseDtoWithMeta;
 import com.tutran.springblog.payload.post.PostCreateRequest;
+import com.tutran.springblog.payload.post.PostDetailsResponseDto;
 import com.tutran.springblog.payload.post.PostResponseDto;
 import com.tutran.springblog.payload.post.PostUpdateRequest;
 import com.tutran.springblog.repository.PostRepository;
@@ -59,9 +60,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostResponseDto getPostById(long id) {
+    public PostDetailsResponseDto getPostById(long id) {
         var post = this.getPostByIdOrThrowException(id);
-        return postMapper.postToPostResponseDto(post);
+        return postMapper.postToPostDetailsResponseDto(post);
     }
 
     @Override

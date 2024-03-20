@@ -2,6 +2,7 @@ package com.tutran.springblog.service;
 
 import com.tutran.springblog.payload.meta.ResponseDtoWithMeta;
 import com.tutran.springblog.payload.post.PostCreateRequest;
+import com.tutran.springblog.payload.post.PostDetailsResponseDto;
 import com.tutran.springblog.payload.post.PostResponseDto;
 import com.tutran.springblog.payload.post.PostUpdateRequest;
 
@@ -12,7 +13,7 @@ public interface PostService {
 
     ResponseDtoWithMeta<List<PostResponseDto>> getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir);
 
-    PostResponseDto getPostById(long id);
+    PostDetailsResponseDto getPostById(long id);
 
     PostResponseDto updatePostById(long id, PostUpdateRequest postUpdateRequest);
 

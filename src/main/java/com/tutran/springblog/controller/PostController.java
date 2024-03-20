@@ -2,6 +2,7 @@ package com.tutran.springblog.controller;
 
 import com.tutran.springblog.payload.ApiResponse;
 import com.tutran.springblog.payload.post.PostCreateRequest;
+import com.tutran.springblog.payload.post.PostDetailsResponseDto;
 import com.tutran.springblog.payload.post.PostResponseDto;
 import com.tutran.springblog.payload.post.PostUpdateRequest;
 import com.tutran.springblog.service.PostService;
@@ -44,8 +45,8 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<PostResponseDto>> getPostById(@PathVariable(name = "id") long id) {
-        ApiResponse<PostResponseDto> apiResponse = new ApiResponse<>(postService.getPostById(id));
+    public ResponseEntity<ApiResponse<PostDetailsResponseDto>> getPostById(@PathVariable(name = "id") long id) {
+        ApiResponse<PostDetailsResponseDto> apiResponse = new ApiResponse<>(postService.getPostById(id));
         return ResponseEntity.ok(apiResponse);
     }
 
