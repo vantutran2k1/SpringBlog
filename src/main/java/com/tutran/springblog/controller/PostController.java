@@ -34,7 +34,7 @@ public class PostController {
             @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
     ) {
         var posts = postService.getAllPosts(pageNo, pageSize, sortBy, sortDir);
-        return ResponseEntity.ok(ApiResponse.builder().data(posts.getPosts()).meta(posts.getMeta()).build());
+        return ResponseEntity.ok(ApiResponse.builder().data(posts.getData()).meta(posts.getMeta()).build());
     }
 
     @GetMapping("/{id}")

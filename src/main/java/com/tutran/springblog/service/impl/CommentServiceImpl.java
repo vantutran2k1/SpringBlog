@@ -6,12 +6,18 @@ import com.tutran.springblog.exception.CommentNotBelongingToPostException;
 import com.tutran.springblog.mapper.CommentMapper;
 import com.tutran.springblog.payload.comment.CommentCreateRequest;
 import com.tutran.springblog.payload.comment.CommentResponseDto;
+import com.tutran.springblog.payload.meta.PaginationMeta;
+import com.tutran.springblog.payload.meta.ResponseDtoWithMeta;
 import com.tutran.springblog.repository.CommentRepository;
 import com.tutran.springblog.repository.PostRepository;
 import com.tutran.springblog.service.CommentService;
 import com.tutran.springblog.utils.ErrorMessageBuilder;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,11 +42,29 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentResponseDto> getCommentsByPostId(long postId) {
+    public ResponseDtoWithMeta<List<CommentResponseDto>> getCommentsByPostId(
+            long postId,
+            int pageNo,
+            int pageSize,
+            String sortBy,
+            String sortDir
+    ) {
         this.getPostByIdOrThrowException(postId);
 
-        var comments = commentRepository.findByPostId(postId);
-        return comments.stream().map(commentMapper::commentToCommentResponseDto).toList();
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        Page<Comment> comments = commentRepository.findByPostId(postId, pageable);
+        List<CommentResponseDto> commentsData = comments.getContent().stream().map(commentMapper::commentToCommentResponseDto).toList();
+
+        PaginationMeta meta = new PaginationMeta();
+        meta.setPageNo(pageNo);
+        meta.setPageSize(pageSize);
+        meta.setTotalElements(comments.getTotalElements());
+        meta.setTotalPages(comments.getTotalPages());
+        meta.setLast(comments.isLast());
+
+        return new ResponseDtoWithMeta<>(commentsData, meta);
     }
 
     @Override

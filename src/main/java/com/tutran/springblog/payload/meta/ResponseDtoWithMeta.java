@@ -1,19 +1,18 @@
-package com.tutran.springblog.payload.post;
+package com.tutran.springblog.payload.meta;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tutran.springblog.payload.PaginationMeta;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 @Builder
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
-public class PostResponseDtoWithMeta {
-    @JsonProperty(value = "posts")
-    List<PostResponseDto> posts;
+@AllArgsConstructor
+public class ResponseDtoWithMeta<T> {
+    @JsonProperty(value = "data")
+    T data;
 
     @JsonProperty(value = "meta")
     PaginationMeta meta;
