@@ -98,9 +98,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public void deletePostById(long id) {
+    public String deletePostById(long id) {
         var post = this.getPostByIdOrThrowException(id);
         postRepository.delete(post);
+
+        return "Post entity deleted successfully";
     }
 
     private boolean isNotEmpty(String property) {

@@ -2,16 +2,18 @@ package com.tutran.springblog.payload;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Value;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
-@Value
-@Builder
+@AllArgsConstructor
+@RequiredArgsConstructor
+@NoArgsConstructor
+@Setter
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
-public class ApiResponse {
+public class ApiResponse<T> {
     @JsonProperty(value = "data")
-    Object data;
+    @NonNull
+    T data;
 
     @JsonProperty(value = "meta")
     Object meta;
