@@ -4,6 +4,7 @@ import com.tutran.springblog.entity.Comment;
 import com.tutran.springblog.entity.Post;
 import com.tutran.springblog.exception.CommentNotBelongingToPostException;
 import com.tutran.springblog.mapper.CommentMapper;
+import com.tutran.springblog.payload.comment.CommentPartialUpdateRequestDto;
 import com.tutran.springblog.payload.comment.CommentRequestDto;
 import com.tutran.springblog.payload.comment.CommentResponseDto;
 import com.tutran.springblog.payload.meta.PaginationMeta;
@@ -80,6 +81,40 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
+    public CommentResponseDto patchUpdateCommentById(long postId, long commentId, CommentPartialUpdateRequestDto commentPartialUpdateRequestDto) {
+        var post = this.getPostByIdOrThrowException(postId);
+        var comment = this.getCommentByIdOrThrowException(commentId);
+        if (comment.getPost().getId() != post.getId()) {
+            throw new CommentNotBelongingToPostException(ErrorMessageBuilder.getCommentNotBelongingToPostErrorMessage(postId, commentId));
+        }
+
+        var name = commentPartialUpdateRequestDto.getName();
+        var email = commentPartialUpdateRequestDto.getEmail();
+        var body = commentPartialUpdateRequestDto.getBody();
+
+        var needUpdate = false;
+        if (this.isNotEmpty(name)) {
+            comment.setName(name);
+            needUpdate = true;
+        }
+        if (this.isNotEmpty(email)) {
+            comment.setEmail(email);
+            needUpdate = true;
+        }
+        if (this.isNotEmpty(body)) {
+            comment.setBody(body);
+            needUpdate = true;
+        }
+
+        if (needUpdate) {
+            var updatedComment = commentRepository.save(comment);
+            return commentMapper.commentToCommentResponseDto(updatedComment);
+        }
+        return commentMapper.commentToCommentResponseDto(comment);
+    }
+
+    @Override
+    @Transactional
     public CommentResponseDto updateCommentById(long postId, long commentId, CommentRequestDto commentRequestDto) {
         var post = this.getPostByIdOrThrowException(postId);
         var comment = this.getCommentByIdOrThrowException(commentId);
@@ -96,6 +131,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public String deleteCommentById(long postId, long commentId) {
         var post = this.getPostByIdOrThrowException(postId);
         var comment = this.getCommentByIdOrThrowException(commentId);
@@ -106,6 +142,10 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.delete(comment);
 
         return "Comment entity deleted successfully";
+    }
+
+    private boolean isNotEmpty(String property) {
+        return property != null && !property.isEmpty();
     }
 
     private Comment getCommentByIdOrThrowException(long commentId) {

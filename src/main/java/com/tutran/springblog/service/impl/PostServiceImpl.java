@@ -98,6 +98,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public PostResponseDto updatePostById(long id, PostRequestDto postRequestDto) {
         var post = this.getPostByIdOrThrowException(id);
 

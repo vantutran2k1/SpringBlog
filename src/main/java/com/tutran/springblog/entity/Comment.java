@@ -23,13 +23,13 @@ public class Comment {
     @EqualsAndHashCode.Include
     private long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "body")
+    @Column(name = "body", nullable = false)
     private String body;
 
     @Column(name = "deleted", nullable = false)

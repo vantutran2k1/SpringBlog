@@ -1,10 +1,12 @@
 package com.tutran.springblog.controller;
 
 import com.tutran.springblog.payload.ApiResponse;
+import com.tutran.springblog.payload.comment.CommentPartialUpdateRequestDto;
 import com.tutran.springblog.payload.comment.CommentRequestDto;
 import com.tutran.springblog.payload.comment.CommentResponseDto;
 import com.tutran.springblog.service.CommentService;
 import com.tutran.springblog.utils.AppConstants;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +24,7 @@ public class CommentController {
     @PostMapping("/posts/{postId}/comments")
     public ResponseEntity<ApiResponse<CommentResponseDto>> createComment(
             @PathVariable(value = "postId") long postId,
-            @RequestBody CommentRequestDto commentRequestDto
+            @RequestBody @Valid CommentRequestDto commentRequestDto
     ) {
         ApiResponse<CommentResponseDto> apiResponse = new ApiResponse<>(
                 commentService.createComment(postId, commentRequestDto)
@@ -56,11 +58,23 @@ public class CommentController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @PatchMapping("/posts/{postId}/comments/{commentId}")
+    public ResponseEntity<ApiResponse<CommentResponseDto>> patchUpdateCommentById(
+            @PathVariable(value = "postId") long postId,
+            @PathVariable(value = "commentId") long commentId,
+            @RequestBody @Valid CommentPartialUpdateRequestDto commentPartialUpdateRequestDto
+    ) {
+        ApiResponse<CommentResponseDto> apiResponse = new ApiResponse<>(commentService.patchUpdateCommentById(
+                postId, commentId, commentPartialUpdateRequestDto
+        ));
+        return ResponseEntity.ok(apiResponse);
+    }
+
     @PutMapping("/posts/{postId}/comments/{commentId}")
     public ResponseEntity<ApiResponse<CommentResponseDto>> updateCommentById(
             @PathVariable(value = "postId") long postId,
             @PathVariable(value = "commentId") long commentId,
-            @RequestBody CommentRequestDto commentRequestDto
+            @RequestBody @Valid CommentRequestDto commentRequestDto
     ) {
         ApiResponse<CommentResponseDto> apiResponse = new ApiResponse<>(commentService.updateCommentById(
                 postId, commentId, commentRequestDto
