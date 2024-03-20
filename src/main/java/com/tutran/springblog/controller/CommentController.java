@@ -1,7 +1,7 @@
 package com.tutran.springblog.controller;
 
 import com.tutran.springblog.payload.ApiResponse;
-import com.tutran.springblog.payload.comment.CommentCreateRequest;
+import com.tutran.springblog.payload.comment.CommentRequestDto;
 import com.tutran.springblog.payload.comment.CommentResponseDto;
 import com.tutran.springblog.service.CommentService;
 import com.tutran.springblog.utils.AppConstants;
@@ -22,10 +22,10 @@ public class CommentController {
     @PostMapping("/posts/{postId}/comments")
     public ResponseEntity<ApiResponse<CommentResponseDto>> createComment(
             @PathVariable(value = "postId") long postId,
-            @RequestBody CommentCreateRequest commentCreateRequest
+            @RequestBody CommentRequestDto commentRequestDto
     ) {
         ApiResponse<CommentResponseDto> apiResponse = new ApiResponse<>(
-                commentService.createComment(postId, commentCreateRequest)
+                commentService.createComment(postId, commentRequestDto)
         );
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
@@ -39,7 +39,7 @@ public class CommentController {
             @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
     ) {
         var comments = commentService.getCommentsByPostId(postId, pageNo, pageSize, sortBy, sortDir);
-        
+
         ApiResponse<List<CommentResponseDto>> apiResponse = new ApiResponse<>();
         apiResponse.setData(comments.getData());
         apiResponse.setMeta(comments.getMeta());
@@ -53,6 +53,18 @@ public class CommentController {
             @PathVariable(value = "commentId") long commentId
     ) {
         ApiResponse<CommentResponseDto> apiResponse = new ApiResponse<>(commentService.getCommentById(postId, commentId));
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PutMapping("/posts/{postId}/comments/{commentId}")
+    public ResponseEntity<ApiResponse<CommentResponseDto>> updateCommentById(
+            @PathVariable(value = "postId") long postId,
+            @PathVariable(value = "commentId") long commentId,
+            @RequestBody CommentRequestDto commentRequestDto
+    ) {
+        ApiResponse<CommentResponseDto> apiResponse = new ApiResponse<>(commentService.updateComment(
+                postId, commentId, commentRequestDto
+        ));
         return ResponseEntity.ok(apiResponse);
     }
 }

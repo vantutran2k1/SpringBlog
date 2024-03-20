@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class CommentCreateRequest {
+public class CommentRequestDto {
     @JsonProperty(value = "name")
     private String name;
 

@@ -1,6 +1,9 @@
 package com.tutran.springblog.utils;
 
 public final class ErrorMessageBuilder {
+    private ErrorMessageBuilder() {
+    }
+
     public static String getPostNotFoundErrorMessage(long postId) {
         return String.format("Could not find post with id '%s'", postId);
     }

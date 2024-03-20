@@ -1,7 +1,7 @@
 package com.tutran.springblog.mapper;
 
 import com.tutran.springblog.entity.Comment;
-import com.tutran.springblog.payload.comment.CommentCreateRequest;
+import com.tutran.springblog.payload.comment.CommentRequestDto;
 import com.tutran.springblog.payload.comment.CommentResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -10,5 +10,5 @@ import org.mapstruct.MappingConstants;
 public interface CommentMapper {
     CommentResponseDto commentToCommentResponseDto(Comment comment);
 
-    Comment commentCreateRequestToComment(CommentCreateRequest commentCreateRequest);
+    Comment commentRequestDtoToComment(CommentRequestDto commentRequestDto);
 }

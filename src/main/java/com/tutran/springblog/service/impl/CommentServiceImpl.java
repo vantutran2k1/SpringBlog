@@ -4,7 +4,7 @@ import com.tutran.springblog.entity.Comment;
 import com.tutran.springblog.entity.Post;
 import com.tutran.springblog.exception.CommentNotBelongingToPostException;
 import com.tutran.springblog.mapper.CommentMapper;
-import com.tutran.springblog.payload.comment.CommentCreateRequest;
+import com.tutran.springblog.payload.comment.CommentRequestDto;
 import com.tutran.springblog.payload.comment.CommentResponseDto;
 import com.tutran.springblog.payload.meta.PaginationMeta;
 import com.tutran.springblog.payload.meta.ResponseDtoWithMeta;
@@ -32,8 +32,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public CommentResponseDto createComment(long postId, CommentCreateRequest commentCreateRequest) {
-        var comment = commentMapper.commentCreateRequestToComment(commentCreateRequest);
+    public CommentResponseDto createComment(long postId, CommentRequestDto commentRequestDto) {
+        var comment = commentMapper.commentRequestDtoToComment(commentRequestDto);
         var post = this.getPostByIdOrThrowException(postId);
         comment.setPost(post);
 
@@ -76,6 +76,23 @@ public class CommentServiceImpl implements CommentService {
         }
 
         return commentMapper.commentToCommentResponseDto(comment);
+    }
+
+    @Override
+    @Transactional
+    public CommentResponseDto updateComment(long postId, long commentId, CommentRequestDto commentRequestDto) {
+        var post = this.getPostByIdOrThrowException(postId);
+        var comment = this.getCommentByIdOrThrowException(commentId);
+        if (comment.getPost().getId() != post.getId()) {
+            throw new CommentNotBelongingToPostException(ErrorMessageBuilder.getCommentNotBelongingToPostErrorMessage(postId, commentId));
+        }
+
+        comment.setName(commentRequestDto.getName());
+        comment.setEmail(commentRequestDto.getEmail());
+        comment.setBody(commentRequestDto.getBody());
+
+        Comment updatedComment = commentRepository.save(comment);
+        return commentMapper.commentToCommentResponseDto(updatedComment);
     }
 
     private Comment getCommentByIdOrThrowException(long commentId) {
