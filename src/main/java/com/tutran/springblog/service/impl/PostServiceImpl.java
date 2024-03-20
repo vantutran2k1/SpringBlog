@@ -5,7 +5,7 @@ import com.tutran.springblog.mapper.PostMapper;
 import com.tutran.springblog.payload.meta.PaginationMeta;
 import com.tutran.springblog.payload.meta.ResponseDtoWithMeta;
 import com.tutran.springblog.payload.post.PostDetailsResponseDto;
-import com.tutran.springblog.payload.post.PostPartialUpdateRequest;
+import com.tutran.springblog.payload.post.PostPartialUpdateRequestDto;
 import com.tutran.springblog.payload.post.PostRequestDto;
 import com.tutran.springblog.payload.post.PostResponseDto;
 import com.tutran.springblog.repository.PostRepository;
@@ -67,10 +67,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public PostResponseDto patchUpdatePostById(long id, PostPartialUpdateRequest postPartialUpdateRequest) {
-        String title = postPartialUpdateRequest.getTitle();
-        String description = postPartialUpdateRequest.getDescription();
-        String content = postPartialUpdateRequest.getContent();
+    public PostResponseDto patchUpdatePostById(long id, PostPartialUpdateRequestDto postPartialUpdateRequestDto) {
+        String title = postPartialUpdateRequestDto.getTitle();
+        String description = postPartialUpdateRequestDto.getDescription();
+        String content = postPartialUpdateRequestDto.getContent();
 
         var post = this.getPostByIdOrThrowException(id);
         boolean needUpdate = false;

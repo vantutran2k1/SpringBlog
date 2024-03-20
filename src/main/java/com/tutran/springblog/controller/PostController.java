@@ -2,7 +2,7 @@ package com.tutran.springblog.controller;
 
 import com.tutran.springblog.payload.ApiResponse;
 import com.tutran.springblog.payload.post.PostDetailsResponseDto;
-import com.tutran.springblog.payload.post.PostPartialUpdateRequest;
+import com.tutran.springblog.payload.post.PostPartialUpdateRequestDto;
 import com.tutran.springblog.payload.post.PostRequestDto;
 import com.tutran.springblog.payload.post.PostResponseDto;
 import com.tutran.springblog.service.PostService;
@@ -53,9 +53,9 @@ public class PostController {
     @PatchMapping("/{id}")
     public ResponseEntity<ApiResponse<PostResponseDto>> patchUpdatePostById(
             @PathVariable(name = "id") long id,
-            @RequestBody @Valid PostPartialUpdateRequest postPartialUpdateRequest
+            @RequestBody @Valid PostPartialUpdateRequestDto postPartialUpdateRequestDto
     ) {
-        ApiResponse<PostResponseDto> apiResponse = new ApiResponse<>(postService.patchUpdatePostById(id, postPartialUpdateRequest));
+        ApiResponse<PostResponseDto> apiResponse = new ApiResponse<>(postService.patchUpdatePostById(id, postPartialUpdateRequestDto));
         return ResponseEntity.ok(apiResponse);
     }
 

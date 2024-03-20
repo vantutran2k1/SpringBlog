@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class PostPartialUpdateRequest {
+public class PostPartialUpdateRequestDto {
     @JsonProperty(value = "title")
     private String title;
 
