@@ -1,8 +1,8 @@
 package com.tutran.springblog.mapper;
 
 import com.tutran.springblog.entity.Post;
-import com.tutran.springblog.payload.post.PostCreateRequest;
 import com.tutran.springblog.payload.post.PostDetailsResponseDto;
+import com.tutran.springblog.payload.post.PostRequestDto;
 import com.tutran.springblog.payload.post.PostResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -13,5 +13,5 @@ public interface PostMapper {
 
     PostDetailsResponseDto postToPostDetailsResponseDto(Post post);
 
-    Post postCreateRequestToPost(PostCreateRequest postCreateRequest);
+    Post postRequestDtoToPost(PostRequestDto postRequestDto);
 }

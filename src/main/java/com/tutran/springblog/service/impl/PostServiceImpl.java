@@ -4,10 +4,10 @@ import com.tutran.springblog.entity.Post;
 import com.tutran.springblog.mapper.PostMapper;
 import com.tutran.springblog.payload.meta.PaginationMeta;
 import com.tutran.springblog.payload.meta.ResponseDtoWithMeta;
-import com.tutran.springblog.payload.post.PostCreateRequest;
 import com.tutran.springblog.payload.post.PostDetailsResponseDto;
+import com.tutran.springblog.payload.post.PostPartialUpdateRequest;
+import com.tutran.springblog.payload.post.PostRequestDto;
 import com.tutran.springblog.payload.post.PostResponseDto;
-import com.tutran.springblog.payload.post.PostUpdateRequest;
 import com.tutran.springblog.repository.PostRepository;
 import com.tutran.springblog.service.PostService;
 import com.tutran.springblog.utils.ErrorMessageBuilder;
@@ -31,11 +31,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public PostResponseDto createPost(PostCreateRequest postCreateRequest) {
-        String title = postCreateRequest.getTitle();
+    public PostResponseDto createPost(PostRequestDto postRequestDto) {
+        String title = postRequestDto.getTitle();
         this.validateNotDuplicatePostTitle(title);
 
-        Post post = postMapper.postCreateRequestToPost(postCreateRequest);
+        Post post = postMapper.postRequestDtoToPost(postRequestDto);
         Post newPost = postRepository.save(post);
 
         return postMapper.postToPostResponseDto(newPost);
@@ -67,10 +67,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public PostResponseDto updatePostById(long id, PostUpdateRequest postUpdateRequest) {
-        String title = postUpdateRequest.getTitle();
-        String description = postUpdateRequest.getDescription();
-        String content = postUpdateRequest.getContent();
+    public PostResponseDto patchUpdatePostById(long id, PostPartialUpdateRequest postPartialUpdateRequest) {
+        String title = postPartialUpdateRequest.getTitle();
+        String description = postPartialUpdateRequest.getDescription();
+        String content = postPartialUpdateRequest.getContent();
 
         var post = this.getPostByIdOrThrowException(id);
         boolean needUpdate = false;
@@ -95,6 +95,23 @@ public class PostServiceImpl implements PostService {
             return postMapper.postToPostResponseDto(updatedPost);
         }
         return postMapper.postToPostResponseDto(post);
+    }
+
+    @Override
+    public PostResponseDto updatePostById(long id, PostRequestDto postRequestDto) {
+        var post = this.getPostByIdOrThrowException(id);
+
+        var title = postRequestDto.getTitle();
+        if (!title.equals(post.getTitle())) {
+            this.validateNotDuplicatePostTitle(title);
+        }
+
+        post.setTitle(title);
+        post.setDescription(postRequestDto.getDescription());
+        post.setContent(postRequestDto.getContent());
+
+        var updatedPost = postRepository.save(post);
+        return postMapper.postToPostResponseDto(updatedPost);
     }
 
     @Override

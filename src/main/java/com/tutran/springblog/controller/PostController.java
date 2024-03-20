@@ -1,10 +1,10 @@
 package com.tutran.springblog.controller;
 
 import com.tutran.springblog.payload.ApiResponse;
-import com.tutran.springblog.payload.post.PostCreateRequest;
 import com.tutran.springblog.payload.post.PostDetailsResponseDto;
+import com.tutran.springblog.payload.post.PostPartialUpdateRequest;
+import com.tutran.springblog.payload.post.PostRequestDto;
 import com.tutran.springblog.payload.post.PostResponseDto;
-import com.tutran.springblog.payload.post.PostUpdateRequest;
 import com.tutran.springblog.service.PostService;
 import com.tutran.springblog.utils.AppConstants;
 import jakarta.validation.Valid;
@@ -23,8 +23,8 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<PostResponseDto>> createPost(@RequestBody @Valid PostCreateRequest postCreateRequest) {
-        ApiResponse<PostResponseDto> apiResponse = new ApiResponse<>(postService.createPost(postCreateRequest));
+    public ResponseEntity<ApiResponse<PostResponseDto>> createPost(@RequestBody @Valid PostRequestDto postRequestDto) {
+        ApiResponse<PostResponseDto> apiResponse = new ApiResponse<>(postService.createPost(postRequestDto));
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
@@ -50,12 +50,21 @@ public class PostController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<ApiResponse<PostResponseDto>> patchUpdatePostById(
+            @PathVariable(name = "id") long id,
+            @RequestBody @Valid PostPartialUpdateRequest postPartialUpdateRequest
+    ) {
+        ApiResponse<PostResponseDto> apiResponse = new ApiResponse<>(postService.patchUpdatePostById(id, postPartialUpdateRequest));
+        return ResponseEntity.ok(apiResponse);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<PostResponseDto>> updatePostById(
             @PathVariable(name = "id") long id,
-            @RequestBody @Valid PostUpdateRequest postUpdateRequest
+            @RequestBody @Valid PostRequestDto postRequestDto
     ) {
-        ApiResponse<PostResponseDto> apiResponse = new ApiResponse<>(postService.updatePostById(id, postUpdateRequest));
+        ApiResponse<PostResponseDto> apiResponse = new ApiResponse<>(postService.updatePostById(id, postRequestDto));
         return ResponseEntity.ok(apiResponse);
     }
 
