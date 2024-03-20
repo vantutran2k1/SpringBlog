@@ -62,9 +62,18 @@ public class CommentController {
             @PathVariable(value = "commentId") long commentId,
             @RequestBody CommentRequestDto commentRequestDto
     ) {
-        ApiResponse<CommentResponseDto> apiResponse = new ApiResponse<>(commentService.updateComment(
+        ApiResponse<CommentResponseDto> apiResponse = new ApiResponse<>(commentService.updateCommentById(
                 postId, commentId, commentRequestDto
         ));
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @DeleteMapping("/posts/{postId}/comments/{commentId}")
+    public ResponseEntity<ApiResponse<String>> deleteCommentById(
+            @PathVariable(value = "postId") long postId,
+            @PathVariable(value = "commentId") long commentId
+    ) {
+        ApiResponse<String> apiResponse = new ApiResponse<>(commentService.deleteCommentById(postId, commentId));
         return ResponseEntity.ok(apiResponse);
     }
 }

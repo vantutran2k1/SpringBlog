@@ -80,7 +80,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public CommentResponseDto updateComment(long postId, long commentId, CommentRequestDto commentRequestDto) {
+    public CommentResponseDto updateCommentById(long postId, long commentId, CommentRequestDto commentRequestDto) {
         var post = this.getPostByIdOrThrowException(postId);
         var comment = this.getCommentByIdOrThrowException(commentId);
         if (comment.getPost().getId() != post.getId()) {
@@ -93,6 +93,19 @@ public class CommentServiceImpl implements CommentService {
 
         Comment updatedComment = commentRepository.save(comment);
         return commentMapper.commentToCommentResponseDto(updatedComment);
+    }
+
+    @Override
+    public String deleteCommentById(long postId, long commentId) {
+        var post = this.getPostByIdOrThrowException(postId);
+        var comment = this.getCommentByIdOrThrowException(commentId);
+        if (comment.getPost().getId() != post.getId()) {
+            throw new CommentNotBelongingToPostException(ErrorMessageBuilder.getCommentNotBelongingToPostErrorMessage(postId, commentId));
+        }
+
+        commentRepository.delete(comment);
+
+        return "Comment entity deleted successfully";
     }
 
     private Comment getCommentByIdOrThrowException(long commentId) {
