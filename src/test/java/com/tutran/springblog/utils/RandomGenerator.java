@@ -33,7 +33,6 @@ public class RandomGenerator {
 
     public static Post generateRandomPost() {
         var post = new Post();
-        post.setId(generateRandomId());
         post.setTitle(generateRandomString());
         post.setDescription(generateRandomString());
         post.setContent(generateRandomString());
@@ -43,7 +42,6 @@ public class RandomGenerator {
 
     public static Comment generateRandomComment(Post post) {
         var comment = new Comment();
-        comment.setId(generateRandomId());
         comment.setName(generateRandomString());
         comment.setEmail(generateRandomEmail());
         comment.setBody(generateRandomString());

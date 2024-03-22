@@ -139,6 +139,7 @@ class PostServiceTest {
     @Test
     void testPatchUpdateTitlePostSuccessfully() {
         var post = RandomGenerator.generateRandomPost();
+        post.setId(RandomGenerator.generateRandomId());
 
         var updateRequest = PostPartialUpdateRequestDto.builder().title(RandomGenerator.generateRandomString()).build();
         var updatedPost = post.toBuilder().title(updateRequest.getTitle()).build();
@@ -162,6 +163,7 @@ class PostServiceTest {
     @Test
     void testPatchUpdateTitleDuplicateThrowException() {
         var post = RandomGenerator.generateRandomPost();
+        post.setId(RandomGenerator.generateRandomId());
 
         var updateRequest = PostPartialUpdateRequestDto.builder().title(RandomGenerator.generateRandomString()).build();
 
@@ -174,6 +176,7 @@ class PostServiceTest {
     @Test
     void testUpdatePostSuccessfully() {
         var post = RandomGenerator.generateRandomPost();
+        post.setId(RandomGenerator.generateRandomId());
 
         var updateRequest = RandomGenerator.generateRandomPostRequestDto();
         var updatedPost = this.getPostFromPostRequestDto(updateRequest, post.getId());
@@ -197,6 +200,7 @@ class PostServiceTest {
     @Test
     void testDeletePostSuccessfully() {
         var post = RandomGenerator.generateRandomPost();
+        post.setId(RandomGenerator.generateRandomId());
 
         when(postRepository.findById(post.getId())).thenReturn(Optional.of(post));
 
