@@ -124,6 +124,13 @@ public class PostServiceImpl implements PostService {
         return "Post entity deleted successfully";
     }
 
+    @Override
+    public Post getPostByIdOrThrowException(long postId) {
+        return postRepository.findById(postId).orElseThrow(
+                () -> new EntityNotFoundException(ErrorMessageBuilder.getPostNotFoundErrorMessage(postId))
+        );
+    }
+
     private boolean isNotEmpty(String property) {
         return property != null && !property.isEmpty();
     }
@@ -133,11 +140,5 @@ public class PostServiceImpl implements PostService {
         if (isExisted) {
             throw new DuplicateKeyException(ErrorMessageBuilder.getDuplicatePostTitleMessage(title));
         }
-    }
-
-    private Post getPostByIdOrThrowException(long postId) {
-        return postRepository.findById(postId).orElseThrow(
-                () -> new EntityNotFoundException(ErrorMessageBuilder.getPostNotFoundErrorMessage(postId))
-        );
     }
 }

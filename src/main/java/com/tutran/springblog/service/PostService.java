@@ -1,5 +1,6 @@
 package com.tutran.springblog.service;
 
+import com.tutran.springblog.entity.Post;
 import com.tutran.springblog.payload.meta.ResponseDtoWithMeta;
 import com.tutran.springblog.payload.post.PostDetailsResponseDto;
 import com.tutran.springblog.payload.post.PostPartialUpdateRequestDto;
@@ -20,4 +21,6 @@ public interface PostService {
     PostResponseDto updatePostById(long id, PostRequestDto postRequestDto);
 
     String deletePostById(long id);
+
+    Post getPostByIdOrThrowException(long postId);
 }
