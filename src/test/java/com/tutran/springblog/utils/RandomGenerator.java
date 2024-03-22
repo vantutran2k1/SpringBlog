@@ -2,6 +2,7 @@ package com.tutran.springblog.utils;
 
 import com.tutran.springblog.entity.Comment;
 import com.tutran.springblog.entity.Post;
+import com.tutran.springblog.payload.comment.CommentRequestDto;
 import com.tutran.springblog.payload.post.PostRequestDto;
 
 import java.util.Random;
@@ -14,6 +15,15 @@ public class RandomGenerator {
     private static final int MAX_VALUE = 1000;
     private static final Random random = new Random();
 
+    public static CommentRequestDto generateRandomCommentRequestDto() {
+        var commentRequestDto = new CommentRequestDto();
+        commentRequestDto.setName(generateRandomString());
+        commentRequestDto.setEmail(generateRandomEmail());
+        commentRequestDto.setBody(generateRandomString());
+
+        return commentRequestDto;
+    }
+
     public static PostRequestDto generateRandomPostRequestDto() {
         var postRequestDto = new PostRequestDto();
         postRequestDto.setTitle(generateRandomString());
@@ -25,7 +35,7 @@ public class RandomGenerator {
 
     public static Post generateRandomPostWithComments() {
         var post = generateRandomPost();
-        var comments = Set.of(generateRandomComment(post), generateRandomComment(post));
+        var comments = Set.of(generateRandomCommentWithAssociatedPost(post), generateRandomCommentWithAssociatedPost(post));
         post.setComments(comments);
 
         return post;
@@ -40,11 +50,17 @@ public class RandomGenerator {
         return post;
     }
 
-    public static Comment generateRandomComment(Post post) {
+    public static Comment generateRandomComment() {
         var comment = new Comment();
         comment.setName(generateRandomString());
         comment.setEmail(generateRandomEmail());
         comment.setBody(generateRandomString());
+
+        return comment;
+    }
+
+    public static Comment generateRandomCommentWithAssociatedPost(Post post) {
+        var comment = generateRandomComment();
         comment.setPost(post);
 
         return comment;

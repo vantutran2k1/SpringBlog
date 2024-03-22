@@ -31,7 +31,7 @@ class CommentRepositoryTest {
 
     @Test
     void testCreateComment() {
-        var comment = RandomGenerator.generateRandomComment(post);
+        var comment = RandomGenerator.generateRandomCommentWithAssociatedPost(post);
         var savedComment = entityManager.persist(comment);
 
         entityManager.flush();
@@ -45,8 +45,8 @@ class CommentRepositoryTest {
 
     @Test
     void testGetAllComments() {
-        var comment1 = RandomGenerator.generateRandomComment(post);
-        var comment2 = RandomGenerator.generateRandomComment(post);
+        var comment1 = RandomGenerator.generateRandomCommentWithAssociatedPost(post);
+        var comment2 = RandomGenerator.generateRandomCommentWithAssociatedPost(post);
 
         entityManager.persist(comment1);
         entityManager.persist(comment2);
@@ -59,7 +59,7 @@ class CommentRepositoryTest {
 
     @Test
     void testGetCommentById() {
-        var comment = RandomGenerator.generateRandomComment(post);
+        var comment = RandomGenerator.generateRandomCommentWithAssociatedPost(post);
         entityManager.persistAndFlush(comment);
 
         Optional<Comment> optionalComment = commentRepository.findById(comment.getId());
@@ -71,7 +71,7 @@ class CommentRepositoryTest {
 
     @Test
     void testPartialUpdateComment() {
-        var originalComment = RandomGenerator.generateRandomComment(post);
+        var originalComment = RandomGenerator.generateRandomCommentWithAssociatedPost(post);
         entityManager.persistAndFlush(originalComment);
 
         var updatedComment = originalComment.toBuilder().name(RandomGenerator.generateRandomString()).build();
@@ -87,7 +87,7 @@ class CommentRepositoryTest {
 
     @Test
     void testUpdateComment() {
-        var originalComment = RandomGenerator.generateRandomComment(post);
+        var originalComment = RandomGenerator.generateRandomCommentWithAssociatedPost(post);
         entityManager.persist(originalComment);
 
         var newPost = RandomGenerator.generateRandomPost();
