@@ -1,9 +1,11 @@
 package com.tutran.springblog.payload.post;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class PostPartialUpdateRequestDto {
     @JsonProperty(value = "title")
     private String title;

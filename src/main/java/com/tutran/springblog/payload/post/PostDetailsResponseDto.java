@@ -2,11 +2,13 @@ package com.tutran.springblog.payload.post;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tutran.springblog.payload.comment.CommentResponseDto;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Set;
 
 @Data
+@Builder
 public class PostDetailsResponseDto {
     @JsonProperty(value = "id")
     private long id;

@@ -24,12 +24,18 @@ public class Comment {
     private long id;
 
     @Column(name = "name", nullable = false)
+    @ToString.Include
+    @EqualsAndHashCode.Include
     private String name;
 
     @Column(name = "email", nullable = false)
+    @ToString.Include
+    @EqualsAndHashCode.Include
     private String email;
 
     @Column(name = "body", nullable = false)
+    @ToString.Include
+    @EqualsAndHashCode.Include
     private String body;
 
     @Column(name = "deleted", nullable = false)
