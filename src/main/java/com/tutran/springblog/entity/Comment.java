@@ -19,6 +19,7 @@ import org.hibernate.annotations.SQLRestriction;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     @ToString.Include
     @EqualsAndHashCode.Include
     private long id;

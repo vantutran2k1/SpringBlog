@@ -23,6 +23,7 @@ import java.util.Set;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     @ToString.Include
     @EqualsAndHashCode.Include
     private long id;

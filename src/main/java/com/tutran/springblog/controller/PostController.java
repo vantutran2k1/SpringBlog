@@ -12,6 +12,7 @@ import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ApiResponse<PostResponseDto>> createPost(@RequestBody @Valid PostRequestDto postRequestDto) {
         ApiResponse<PostResponseDto> apiResponse = new ApiResponse<>(postService.createPost(postRequestDto));
@@ -50,6 +52,7 @@ public class PostController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}")
     public ResponseEntity<ApiResponse<PostResponseDto>> patchUpdatePostById(
             @PathVariable(name = "id") long id,
@@ -59,6 +62,7 @@ public class PostController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<PostResponseDto>> updatePostById(
             @PathVariable(name = "id") long id,
@@ -68,6 +72,7 @@ public class PostController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<String>> deletePostById(@PathVariable(name = "id") long id) {
         ApiResponse<String> apiResponse = new ApiResponse<>(postService.deletePostById(id));
