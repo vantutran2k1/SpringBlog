@@ -1,9 +1,11 @@
 package com.tutran.springblog.repository;
 
 import com.tutran.springblog.api.SpringBlogApplication;
+import com.tutran.springblog.api.entity.Category;
 import com.tutran.springblog.api.entity.Post;
 import com.tutran.springblog.api.repository.PostRepository;
 import com.tutran.springblog.utils.RandomGenerator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -22,6 +24,14 @@ class PostRepositoryTest {
 
     @Autowired
     private PostRepository postRepository;
+
+    private Category category;
+
+    @BeforeEach
+    void beforeEach() {
+        category = RandomGenerator.generateRandomCategory();
+        entityManager.persist(category);
+    }
 
     @Test
     void testCreatePost() {

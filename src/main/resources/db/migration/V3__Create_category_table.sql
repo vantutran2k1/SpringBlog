@@ -7,5 +7,7 @@ CREATE TABLE categories
 );
 
 ALTER TABLE posts
-    ADD COLUMN category_id BIGINT NOT NULL,
+    ADD COLUMN category_id BIGINT NOT NULL;
+
+ALTER TABLE posts
     ADD CONSTRAINT fk_category_id FOREIGN KEY (category_id) REFERENCES categories (id);

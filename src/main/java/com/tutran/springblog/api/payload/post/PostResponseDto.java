@@ -18,4 +18,7 @@ public class PostResponseDto {
 
     @JsonProperty(value = "content")
     private String content;
+
+    @JsonProperty(value = "category_id")
+    private long categoryId;
 }

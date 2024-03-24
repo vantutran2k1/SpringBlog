@@ -1,5 +1,6 @@
 package com.tutran.springblog.utils;
 
+import com.tutran.springblog.api.entity.Category;
 import com.tutran.springblog.api.entity.Comment;
 import com.tutran.springblog.api.entity.Post;
 import com.tutran.springblog.api.payload.comment.CommentRequestDto;
@@ -15,6 +16,14 @@ public class RandomGenerator {
     private static final int MAX_VALUE = 1000;
     private static final Random random = new Random();
 
+    public static Category generateRandomCategory() {
+        var category = new Category();
+        category.setName(generateRandomString());
+        category.setDescription(generateRandomString());
+
+        return category;
+    }
+
     public static CommentRequestDto generateRandomCommentRequestDto() {
         var commentRequestDto = new CommentRequestDto();
         commentRequestDto.setName(generateRandomString());
@@ -29,6 +38,7 @@ public class RandomGenerator {
         postRequestDto.setTitle(generateRandomString());
         postRequestDto.setDescription(generateRandomString());
         postRequestDto.setContent(generateRandomString());
+        postRequestDto.setCategoryId(generateRandomId());
 
         return postRequestDto;
     }

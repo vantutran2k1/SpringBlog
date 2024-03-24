@@ -9,6 +9,7 @@ import com.tutran.springblog.api.payload.post.PostPartialUpdateRequestDto;
 import com.tutran.springblog.api.payload.post.PostRequestDto;
 import com.tutran.springblog.api.payload.post.PostResponseDto;
 import com.tutran.springblog.api.repository.PostRepository;
+import com.tutran.springblog.api.service.CategoryService;
 import com.tutran.springblog.api.service.PostService;
 import com.tutran.springblog.api.utils.ErrorMessageBuilder;
 import jakarta.persistence.EntityNotFoundException;
@@ -28,6 +29,7 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final PostMapper postMapper;
+    private final CategoryService categoryService;
 
     @Override
     @Transactional
@@ -36,6 +38,7 @@ public class PostServiceImpl implements PostService {
         this.validateNotDuplicatePostTitle(title);
 
         Post post = postMapper.postRequestDtoToPost(postRequestDto);
+        post.setCategory(categoryService.getCategoryByIdOrThrowException(postRequestDto.getCategoryId()));
         Post newPost = postRepository.save(post);
 
         return postMapper.postToPostResponseDto(newPost);

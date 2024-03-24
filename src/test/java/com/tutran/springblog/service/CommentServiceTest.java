@@ -3,14 +3,13 @@ package com.tutran.springblog.service;
 import com.tutran.springblog.api.entity.Comment;
 import com.tutran.springblog.api.entity.Post;
 import com.tutran.springblog.api.exception.CommentNotBelongingToPostException;
-import com.tutran.springblog.api.mapper.CommentMapper;
-import com.tutran.springblog.api.mapper.CommentMapperImpl;
-import com.tutran.springblog.api.mapper.PostMapper;
-import com.tutran.springblog.api.mapper.PostMapperImpl;
+import com.tutran.springblog.api.mapper.*;
 import com.tutran.springblog.api.payload.comment.CommentPartialUpdateRequestDto;
+import com.tutran.springblog.api.repository.CategoryRepository;
 import com.tutran.springblog.api.repository.CommentRepository;
 import com.tutran.springblog.api.repository.PostRepository;
 import com.tutran.springblog.api.service.CommentService;
+import com.tutran.springblog.api.service.impl.CategoryServiceImpl;
 import com.tutran.springblog.api.service.impl.CommentServiceImpl;
 import com.tutran.springblog.api.service.impl.PostServiceImpl;
 import com.tutran.springblog.utils.RandomGenerator;
@@ -36,8 +35,12 @@ class CommentServiceTest {
     @Mock
     private PostRepository postRepository;
 
+    @Mock
+    private CategoryRepository categoryRepository;
+
     private final PostMapper postMapper = new PostMapperImpl();
     private final CommentMapper commentMapper = new CommentMapperImpl();
+    private final CategoryMapper categoryMapper = new CategoryMapperImpl();
 
     private CommentService commentService;
 
@@ -45,7 +48,8 @@ class CommentServiceTest {
 
     @BeforeEach
     void beforeEach() {
-        var postService = new PostServiceImpl(postRepository, postMapper);
+        var categoryService = new CategoryServiceImpl(categoryRepository, categoryMapper);
+        var postService = new PostServiceImpl(postRepository, postMapper, categoryService);
         commentService = new CommentServiceImpl(commentRepository, postService, commentMapper);
         post = RandomGenerator.generateRandomPost();
         post.setId(RandomGenerator.generateRandomId());

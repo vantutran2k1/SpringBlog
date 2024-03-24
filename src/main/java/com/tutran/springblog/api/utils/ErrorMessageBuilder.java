@@ -27,4 +27,8 @@ public final class ErrorMessageBuilder {
     public static String getEmailExistedErrorMessage(String email) {
         return String.format("Email '%s' already exists", email);
     }
+
+    public static String getCategoryNotFoundErrorMessage(long categoryId) {
+        return String.format("Could not find category with id '%s'", categoryId);
+    }
 }

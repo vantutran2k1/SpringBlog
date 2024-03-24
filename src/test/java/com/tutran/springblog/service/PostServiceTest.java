@@ -1,13 +1,17 @@
 package com.tutran.springblog.service;
 
 import com.tutran.springblog.api.entity.Post;
+import com.tutran.springblog.api.mapper.CategoryMapper;
+import com.tutran.springblog.api.mapper.CategoryMapperImpl;
 import com.tutran.springblog.api.mapper.PostMapper;
 import com.tutran.springblog.api.mapper.PostMapperImpl;
 import com.tutran.springblog.api.payload.meta.ResponseDtoWithMeta;
 import com.tutran.springblog.api.payload.post.PostPartialUpdateRequestDto;
 import com.tutran.springblog.api.payload.post.PostResponseDto;
+import com.tutran.springblog.api.repository.CategoryRepository;
 import com.tutran.springblog.api.repository.PostRepository;
 import com.tutran.springblog.api.service.PostService;
+import com.tutran.springblog.api.service.impl.CategoryServiceImpl;
 import com.tutran.springblog.api.service.impl.PostServiceImpl;
 import com.tutran.springblog.utils.RandomGenerator;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,21 +34,28 @@ class PostServiceTest {
     @Mock
     private PostRepository postRepository;
 
+    @Mock
+    private CategoryRepository categoryRepository;
+
     private final PostMapper postMapper = new PostMapperImpl();
+    private final CategoryMapper categoryMapper = new CategoryMapperImpl();
 
     private PostService postService;
 
     @BeforeEach
     void beforeEach() {
-        postService = new PostServiceImpl(postRepository, postMapper);
+        var categoryService = new CategoryServiceImpl(categoryRepository, categoryMapper);
+        postService = new PostServiceImpl(postRepository, postMapper, categoryService);
     }
 
     @Test
     void testCreatePostSuccessfully() {
         var request = RandomGenerator.generateRandomPostRequestDto();
         var post = postMapper.postRequestDtoToPost(request);
+        var category = RandomGenerator.generateRandomCategory();
 
         when(postRepository.save(any(Post.class))).thenReturn(post);
+        when(categoryRepository.findById(request.getCategoryId())).thenReturn(Optional.of(category));
 
         var result = postService.createPost(request);
 
@@ -88,6 +99,8 @@ class PostServiceTest {
     @Test
     void testGetPostByIdSuccessfully() {
         var post = RandomGenerator.generateRandomPostWithComments();
+        var category = RandomGenerator.generateRandomCategory();
+        post.setCategory(category);
 
         when(postRepository.findById(post.getId())).thenReturn(Optional.of(post));
 

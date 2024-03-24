@@ -22,6 +22,9 @@ public class PostDetailsResponseDto {
     @JsonProperty(value = "content")
     private String content;
 
+    @JsonProperty(value = "category_id")
+    private long categoryId;
+
     @JsonProperty(value = "comments")
     private Set<CommentResponseDto> comments;
 }
