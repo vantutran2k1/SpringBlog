@@ -26,6 +26,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public CategoryResponseDto getCategoryById(long categoryId) {
+        return categoryMapper.categoryToCategoryResponseDto(getCategoryByIdOrThrowException(categoryId));
+    }
+
+    @Override
     public Category getCategoryByIdOrThrowException(long categoryId) {
         return categoryRepository.findById(categoryId).orElseThrow(
                 () -> new EntityNotFoundException(ErrorMessageBuilder.getCategoryNotFoundErrorMessage(categoryId))
