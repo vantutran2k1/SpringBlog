@@ -49,4 +49,11 @@ public class CategoryController {
         );
         return ResponseEntity.ok(apiResponse);
     }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<String>> deleteCategoryById(@PathVariable(name = "id") long id) {
+        ApiResponse<String> apiResponse = new ApiResponse<>(categoryService.deleteCategory(id));
+        return ResponseEntity.ok(apiResponse);
+    }
 }

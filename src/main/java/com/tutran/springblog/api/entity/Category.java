@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "categories")
-@SQLDelete(sql = "UPDATE comments SET deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE categories SET deleted = true WHERE id=?")
 @SQLRestriction(value = "deleted = false")
 public class Category {
     @Id

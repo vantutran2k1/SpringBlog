@@ -49,6 +49,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public String deleteCategory(long categoryId) {
+        var category = getCategoryByIdOrThrowException(categoryId);
+        categoryRepository.delete(category);
+
+        return "Category entity deleted successfully";
+    }
+
+    @Override
     public Category getCategoryByIdOrThrowException(long categoryId) {
         return categoryRepository.findById(categoryId).orElseThrow(
                 () -> new EntityNotFoundException(ErrorMessageBuilder.getCategoryNotFoundErrorMessage(categoryId))
