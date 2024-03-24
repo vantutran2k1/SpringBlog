@@ -130,6 +130,13 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.tutran.springblog.api.SpringBlogApplication</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

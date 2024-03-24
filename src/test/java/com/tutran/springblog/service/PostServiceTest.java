@@ -1,13 +1,14 @@
 package com.tutran.springblog.service;
 
-import com.tutran.springblog.entity.Post;
-import com.tutran.springblog.mapper.PostMapper;
-import com.tutran.springblog.mapper.PostMapperImpl;
-import com.tutran.springblog.payload.meta.ResponseDtoWithMeta;
-import com.tutran.springblog.payload.post.PostPartialUpdateRequestDto;
-import com.tutran.springblog.payload.post.PostResponseDto;
-import com.tutran.springblog.repository.PostRepository;
-import com.tutran.springblog.service.impl.PostServiceImpl;
+import com.tutran.springblog.api.entity.Post;
+import com.tutran.springblog.api.mapper.PostMapper;
+import com.tutran.springblog.api.mapper.PostMapperImpl;
+import com.tutran.springblog.api.payload.meta.ResponseDtoWithMeta;
+import com.tutran.springblog.api.payload.post.PostPartialUpdateRequestDto;
+import com.tutran.springblog.api.payload.post.PostResponseDto;
+import com.tutran.springblog.api.repository.PostRepository;
+import com.tutran.springblog.api.service.PostService;
+import com.tutran.springblog.api.service.impl.PostServiceImpl;
 import com.tutran.springblog.utils.RandomGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

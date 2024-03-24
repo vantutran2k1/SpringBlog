@@ -1,7 +1,8 @@
 package com.tutran.springblog.repository;
 
-import com.tutran.springblog.SpringBlogApplication;
-import com.tutran.springblog.entity.Post;
+import com.tutran.springblog.api.SpringBlogApplication;
+import com.tutran.springblog.api.entity.Post;
+import com.tutran.springblog.api.repository.PostRepository;
 import com.tutran.springblog.utils.RandomGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

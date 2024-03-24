@@ -1,9 +1,9 @@
 package com.tutran.springblog.utils;
 
-import com.tutran.springblog.entity.Comment;
-import com.tutran.springblog.entity.Post;
-import com.tutran.springblog.payload.comment.CommentRequestDto;
-import com.tutran.springblog.payload.post.PostRequestDto;
+import com.tutran.springblog.api.entity.Comment;
+import com.tutran.springblog.api.entity.Post;
+import com.tutran.springblog.api.payload.comment.CommentRequestDto;
+import com.tutran.springblog.api.payload.post.PostRequestDto;
 
 import java.util.Random;
 import java.util.Set;
