@@ -69,7 +69,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         ex.getBindingResult()
                 .getAllErrors()
                 .forEach(error -> {
-                    String fieldName = ((FieldError) error).getField();
+                    String fieldName = camelToSnake(((FieldError) error).getField());
                     String message = error.getDefaultMessage();
                     errors.put(fieldName, message);
                 });
@@ -96,5 +96,22 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         }
 
         return new ResponseEntity<>(apiError, status);
+    }
+
+    private String camelToSnake(String camelCase) {
+        StringBuilder snakeCase = new StringBuilder();
+        for (int i = 0; i < camelCase.length(); i++) {
+            char c = camelCase.charAt(i);
+            if (Character.isUpperCase(c)) {
+                snakeCase.append("_").append(Character.toLowerCase(c));
+            } else {
+                snakeCase.append(c);
+            }
+        }
+
+        if (snakeCase.charAt(0) == '_') {
+            snakeCase.deleteCharAt(0);
+        }
+        return snakeCase.toString();
     }
 }

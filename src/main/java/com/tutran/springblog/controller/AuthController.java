@@ -1,6 +1,7 @@
 package com.tutran.springblog.controller;
 
 import com.tutran.springblog.payload.ApiResponse;
+import com.tutran.springblog.payload.authentication.JwtAuthResponse;
 import com.tutran.springblog.payload.authentication.LoginDto;
 import com.tutran.springblog.payload.authentication.RegisterDto;
 import com.tutran.springblog.service.AuthService;
@@ -24,8 +25,10 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<String>> login(@RequestBody @Valid LoginDto loginDto) {
-        var response = authService.login(loginDto);
+    public ResponseEntity<ApiResponse<JwtAuthResponse>> login(@RequestBody @Valid LoginDto loginDto) {
+        var response = new JwtAuthResponse();
+        response.setAccessToken(authService.login(loginDto));
+        
         return ResponseEntity.ok(new ApiResponse<>(response));
     }
 

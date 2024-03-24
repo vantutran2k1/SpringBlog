@@ -7,6 +7,7 @@ import com.tutran.springblog.payload.authentication.LoginDto;
 import com.tutran.springblog.payload.authentication.RegisterDto;
 import com.tutran.springblog.repository.RoleRepository;
 import com.tutran.springblog.repository.UserRepository;
+import com.tutran.springblog.security.JwtTokenProvider;
 import com.tutran.springblog.service.AuthService;
 import com.tutran.springblog.utils.ErrorMessageBuilder;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +20,12 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
-    private final String USER_ROLE = "USER_ROLE";
 
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
     private final UserMapper userMapper;
 
     @Override
@@ -34,8 +35,8 @@ public class AuthServiceImpl implements AuthService {
                 loginDto.getPassword()
         ));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        return "User logged-in successfully";
+        
+        return jwtTokenProvider.generateToken(authentication);
     }
 
     @Override
@@ -54,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
         Role userRole = null;
-        var userRoleOpt = roleRepository.findByName(USER_ROLE);
+        var userRoleOpt = roleRepository.findByName("USER_ROLE");
         if (userRoleOpt.isPresent()) {
             userRole = userRoleOpt.get();
         }
