@@ -1,5 +1,6 @@
 package com.tutran.springblog.repository;
 
+import com.tutran.springblog.SpringBlogApplication;
 import com.tutran.springblog.entity.Comment;
 import com.tutran.springblog.entity.Post;
 import com.tutran.springblog.utils.RandomGenerator;
@@ -8,12 +9,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
+@ContextConfiguration(classes = SpringBlogApplication.class)
 class CommentRepositoryTest {
     @Autowired
     private TestEntityManager entityManager;
