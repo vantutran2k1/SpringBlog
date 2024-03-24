@@ -13,5 +13,7 @@ public interface CategoryService {
 
     List<CategoryResponseDto> getAllCategories();
 
+    CategoryResponseDto updateCategory(CategoryRequestDto categoryRequestDto, long categoryId);
+
     Category getCategoryByIdOrThrowException(long categoryId);
 }
