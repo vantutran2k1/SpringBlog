@@ -39,7 +39,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
             IllegalArgumentException.class,
             PropertyReferenceException.class,
             CommentNotBelongingToPostException.class,
-            UserExistedException.class
+            UserExistedException.class,
+            JwtTokenException.class
     })
     protected ResponseEntity<ApiError> handleBadRequest(RuntimeException ex) {
         return this.buildErrorResponseEntity(ex, null, HttpStatus.BAD_REQUEST);
