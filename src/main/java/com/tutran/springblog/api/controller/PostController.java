@@ -23,8 +23,8 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<PostResponseDto>> createPost(@RequestBody @Valid PostRequestDto postRequestDto) {
         ApiResponse<PostResponseDto> apiResponse = new ApiResponse<>(postService.createPost(postRequestDto));
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
@@ -52,8 +52,8 @@ public class PostController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<PostResponseDto>> patchUpdatePostById(
             @PathVariable(name = "id") long id,
             @RequestBody @Valid PostPartialUpdateRequestDto postPartialUpdateRequestDto
@@ -62,8 +62,8 @@ public class PostController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<PostResponseDto>> updatePostById(
             @PathVariable(name = "id") long id,
             @RequestBody @Valid PostRequestDto postRequestDto
@@ -72,8 +72,8 @@ public class PostController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<String>> deletePostById(@PathVariable(name = "id") long id) {
         ApiResponse<String> apiResponse = new ApiResponse<>(postService.deletePostById(id));
         return ResponseEntity.ok(apiResponse);

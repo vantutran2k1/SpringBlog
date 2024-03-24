@@ -11,6 +11,7 @@ import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/posts/{postId}/comments")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<CommentResponseDto>> createComment(
             @PathVariable(value = "postId") long postId,
             @RequestBody @Valid CommentRequestDto commentRequestDto
@@ -59,6 +61,7 @@ public class CommentController {
     }
 
     @PatchMapping("/posts/{postId}/comments/{commentId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<CommentResponseDto>> patchUpdateCommentById(
             @PathVariable(value = "postId") long postId,
             @PathVariable(value = "commentId") long commentId,
@@ -71,6 +74,7 @@ public class CommentController {
     }
 
     @PutMapping("/posts/{postId}/comments/{commentId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<CommentResponseDto>> updateCommentById(
             @PathVariable(value = "postId") long postId,
             @PathVariable(value = "commentId") long commentId,
@@ -83,6 +87,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/posts/{postId}/comments/{commentId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<String>> deleteCommentById(
             @PathVariable(value = "postId") long postId,
             @PathVariable(value = "commentId") long commentId
