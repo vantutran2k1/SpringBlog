@@ -11,6 +11,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
@@ -28,6 +30,12 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponseDto getCategoryById(long categoryId) {
         return categoryMapper.categoryToCategoryResponseDto(getCategoryByIdOrThrowException(categoryId));
+    }
+
+    @Override
+    public List<CategoryResponseDto> getAllCategories() {
+        var categories = categoryRepository.findAll();
+        return categories.stream().map(categoryMapper::categoryToCategoryResponseDto).toList();
     }
 
     @Override

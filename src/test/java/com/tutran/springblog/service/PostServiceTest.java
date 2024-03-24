@@ -53,6 +53,7 @@ class PostServiceTest {
         var request = RandomGenerator.generateRandomPostRequestDto();
         var post = postMapper.postRequestDtoToPost(request);
         var category = RandomGenerator.generateRandomCategory();
+        post.setCategory(category);
 
         when(postRepository.save(any(Post.class))).thenReturn(post);
         when(categoryRepository.findById(request.getCategoryId())).thenReturn(Optional.of(category));
@@ -81,7 +82,10 @@ class PostServiceTest {
         String sortBy = "title";
         String sortDir = "ASC";
 
-        List<Post> posts = List.of(RandomGenerator.generateRandomPost(), RandomGenerator.generateRandomPost());
+        var category = RandomGenerator.generateRandomCategory();
+        var post1 = RandomGenerator.generateRandomPostWithAssociatedCategory(category);
+        var post2 = RandomGenerator.generateRandomPostWithAssociatedCategory(category);
+        List<Post> posts = List.of(post1, post2);
 
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).ascending());
         Page<Post> mockPage = new PageImpl<>(posts, pageable, posts.size());
@@ -116,7 +120,8 @@ class PostServiceTest {
 
     @Test
     void testPatchUpdateTitlePostSuccessfully() {
-        var post = RandomGenerator.generateRandomPost();
+        var category = RandomGenerator.generateRandomCategory();
+        var post = RandomGenerator.generateRandomPostWithAssociatedCategory(category);
         post.setId(RandomGenerator.generateRandomId());
 
         var request = PostPartialUpdateRequestDto.builder().title(RandomGenerator.generateRandomString()).build();
@@ -149,11 +154,13 @@ class PostServiceTest {
 
     @Test
     void testUpdatePostSuccessfully() {
-        var post = RandomGenerator.generateRandomPost();
+        var category = RandomGenerator.generateRandomCategory();
+        var post = RandomGenerator.generateRandomPostWithAssociatedCategory(category);
         post.setId(RandomGenerator.generateRandomId());
 
         var request = RandomGenerator.generateRandomPostRequestDto();
         var updatedPost = postMapper.postRequestDtoToPost(request);
+        updatedPost.setCategory(category);
 
         when(postRepository.findById(post.getId())).thenReturn(Optional.of(post));
         when(postRepository.save(any(Post.class))).thenReturn(updatedPost);

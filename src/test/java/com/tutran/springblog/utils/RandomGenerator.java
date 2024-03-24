@@ -24,6 +24,13 @@ public class RandomGenerator {
         return category;
     }
 
+    public static Post generateRandomPostWithAssociatedCategory(Category category) {
+        var post = generateRandomPost();
+        post.setCategory(category);
+
+        return post;
+    }
+
     public static CommentRequestDto generateRandomCommentRequestDto() {
         var commentRequestDto = new CommentRequestDto();
         commentRequestDto.setName(generateRandomString());
