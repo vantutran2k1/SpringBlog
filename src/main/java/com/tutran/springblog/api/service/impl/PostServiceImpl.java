@@ -45,11 +45,24 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public ResponseDtoWithMeta<List<PostResponseDto>> getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir) {
+    public ResponseDtoWithMeta<List<PostResponseDto>> getAllPosts(
+            int pageNo,
+            int pageSize,
+            String sortBy,
+            String sortDir,
+            Long categoryId
+    ) {
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-        Page<Post> posts = postRepository.findAll(pageable);
+
+        Page<Post> posts;
+        if (categoryId == null) {
+            posts = postRepository.findAll(pageable);
+        } else {
+            categoryService.getCategoryByIdOrThrowException(categoryId);
+            posts = postRepository.findByCategoryId(categoryId, pageable);
+        }
         List<PostResponseDto> postsData = posts.getContent().stream().map(postMapper::postToPostResponseDto).toList();
 
         PaginationMeta meta = new PaginationMeta();

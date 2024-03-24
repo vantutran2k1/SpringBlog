@@ -35,9 +35,10 @@ public class PostController {
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) @Min(value = 0) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) @Min(value = 1) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir,
+            @RequestParam(value = "categoryId", required = false) Long categoryId
     ) {
-        var posts = postService.getAllPosts(pageNo, pageSize, sortBy, sortDir);
+        var posts = postService.getAllPosts(pageNo, pageSize, sortBy, sortDir, categoryId);
 
         ApiResponse<List<PostResponseDto>> apiResponse = new ApiResponse<>();
         apiResponse.setData(posts.getData());

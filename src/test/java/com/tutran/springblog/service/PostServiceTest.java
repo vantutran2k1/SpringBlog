@@ -92,7 +92,7 @@ class PostServiceTest {
 
         when(postRepository.findAll(pageable)).thenReturn(mockPage);
 
-        ResponseDtoWithMeta<List<PostResponseDto>> result = postService.getAllPosts(pageNo, pageSize, sortBy, sortDir);
+        ResponseDtoWithMeta<List<PostResponseDto>> result = postService.getAllPosts(pageNo, pageSize, sortBy, sortDir, null);
 
         assertNotNull(result);
         assertEquals(posts.size(), result.getData().size());

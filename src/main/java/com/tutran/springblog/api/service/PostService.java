@@ -12,10 +12,10 @@ import java.util.List;
 public interface PostService {
     PostResponseDto createPost(PostRequestDto postRequestDto);
 
-    ResponseDtoWithMeta<List<PostResponseDto>> getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir);
+    ResponseDtoWithMeta<List<PostResponseDto>> getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir, Long categoryId);
 
     PostDetailsResponseDto getPostById(long id);
-
+    
     PostResponseDto patchUpdatePostById(long id, PostPartialUpdateRequestDto postPartialUpdateRequestDto);
 
     PostResponseDto updatePostById(long id, PostRequestDto postRequestDto);
