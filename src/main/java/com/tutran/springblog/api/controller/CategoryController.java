@@ -4,6 +4,8 @@ import com.tutran.springblog.api.payload.ApiResponse;
 import com.tutran.springblog.api.payload.category.CategoryRequestDto;
 import com.tutran.springblog.api.payload.category.CategoryResponseDto;
 import com.tutran.springblog.api.service.CategoryService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,10 +17,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/categories")
+@Tag(name = "CRUD REST APIs for Category Resource")
 @RequiredArgsConstructor
 public class CategoryController {
     private final CategoryService categoryService;
 
+    @SecurityRequirement(name = "Bear Authentication")
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<CategoryResponseDto>> addCategory(@RequestBody @Valid CategoryRequestDto categoryRequestDto) {
@@ -38,6 +42,7 @@ public class CategoryController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @SecurityRequirement(name = "Bear Authentication")
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<CategoryResponseDto>> updateCategory(
@@ -50,6 +55,7 @@ public class CategoryController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @SecurityRequirement(name = "Bear Authentication")
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<String>> deleteCategoryById(@PathVariable(name = "id") long id) {

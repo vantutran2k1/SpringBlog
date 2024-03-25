@@ -7,6 +7,8 @@ import com.tutran.springblog.api.payload.post.PostRequestDto;
 import com.tutran.springblog.api.payload.post.PostResponseDto;
 import com.tutran.springblog.api.service.PostService;
 import com.tutran.springblog.api.utils.AppConstants;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +21,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
+@Tag(name = "CRUD REST APIs for Post Resource")
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
 
+    @SecurityRequirement(name = "Bear Authentication")
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<PostResponseDto>> createPost(@RequestBody @Valid PostRequestDto postRequestDto) {
@@ -53,6 +57,7 @@ public class PostController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @SecurityRequirement(name = "Bear Authentication")
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<PostResponseDto>> patchUpdatePostById(
@@ -63,6 +68,7 @@ public class PostController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @SecurityRequirement(name = "Bear Authentication")
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<PostResponseDto>> updatePostById(
@@ -73,6 +79,7 @@ public class PostController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @SecurityRequirement(name = "Bear Authentication")
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<String>> deletePostById(@PathVariable(name = "id") long id) {

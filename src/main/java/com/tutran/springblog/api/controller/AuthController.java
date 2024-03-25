@@ -5,6 +5,7 @@ import com.tutran.springblog.api.payload.authentication.JwtAuthResponse;
 import com.tutran.springblog.api.payload.authentication.LoginDto;
 import com.tutran.springblog.api.payload.authentication.RegisterDto;
 import com.tutran.springblog.api.service.AuthService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "REST APIs for Authentication Resource")
 public class AuthController {
     private final AuthService authService;
 

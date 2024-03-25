@@ -6,6 +6,8 @@ import com.tutran.springblog.api.payload.comment.CommentRequestDto;
 import com.tutran.springblog.api.payload.comment.CommentResponseDto;
 import com.tutran.springblog.api.service.CommentService;
 import com.tutran.springblog.api.utils.AppConstants;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +20,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@Tag(name = "CRUD REST APIs for Comment Resource")
 @RequiredArgsConstructor
 public class CommentController {
     private final CommentService commentService;
 
+    @SecurityRequirement(name = "Bear Authentication")
     @PostMapping("/posts/{postId}/comments")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<CommentResponseDto>> createComment(
@@ -60,6 +64,7 @@ public class CommentController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @SecurityRequirement(name = "Bear Authentication")
     @PatchMapping("/posts/{postId}/comments/{commentId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<CommentResponseDto>> patchUpdateCommentById(
@@ -73,6 +78,7 @@ public class CommentController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @SecurityRequirement(name = "Bear Authentication")
     @PutMapping("/posts/{postId}/comments/{commentId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<CommentResponseDto>> updateCommentById(
@@ -86,6 +92,7 @@ public class CommentController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @SecurityRequirement(name = "Bear Authentication")
     @DeleteMapping("/posts/{postId}/comments/{commentId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<String>> deleteCommentById(
